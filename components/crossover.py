@@ -44,8 +44,7 @@ class CrossOver:
         J_ = np.zeros((n_jobs, n_jobs), dtype=np.bool8)
         partition_1 = Schedule(M_, J_)
         partition_2 = copy.deepcopy(partition_1)
-
-        count = []
+        
         for j in machines:
             first_job = np.argmax(M[j,:]*(1 - np.dot(M[j,:], J)))
             
@@ -74,7 +73,6 @@ class CrossOver:
                 partition_2.M[j, last_pair[1]]= 1
 
             except Exception as e:
-                count.append(e)
                 partition_1.M[j, first_job] = 1
 
         return partition_1, partition_2
