@@ -4,9 +4,12 @@ import numpy as np
 class Schedule:
     
     def __init__(self, M, J):
-        """ -----------about M and J"""
+        """ """
         self.M = M
         self.J = J
+        # fitness score
+        self.fitness = None
+        self.score = None
         
     def __repr__(self):
         repr_ = f'{self.__class__.__name__}( \

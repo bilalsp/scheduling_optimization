@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import copy
 import numpy as np
 
@@ -17,7 +19,16 @@ class Mutation:
         # strength between each pair
         self.lambda_ = kwargs['lambda_']
       
-    def apply(self, S: Schedule, type='within'):
+    def apply(self, parent_pool, prob_mut) -> List[Schedule]:
+        mut_pool = []
+        for schedule in parent_pool:
+            r = np.random.random()
+            if r <= prob_mut:
+                mut_pool.append(self.apply_mutation(schedule))
+        return mut_pool
+
+
+    def apply_mutation(self, S: Schedule, type='within'):
         """apply mutation of schedule"""
 
         if type == 'within':
@@ -26,7 +37,7 @@ class Mutation:
         if type == 'across':
             raise NotImplementedError
         
-        return S, mut_count
+        return S
         
     def _apply_within(self, S: Schedule) -> Schedule:
         """apply mutation on each job sequence of schedule"""

@@ -18,8 +18,26 @@ class CrossOver:
         # ------------parameters setting --------------
         # strength between each pair
         self.lambda_ = kwargs['lambda_']
-        
-    def apply(self, s1: Schedule, s2: Schedule) -> List[Schedule]:
+
+    def apply(self, parent_pool) -> List[Schedule]:
+        """" """
+        offspring_pool = []
+
+        # each crossover generates 2 offspring
+        num_offspring = len(parent_pool) // 2
+
+        for _ in range(num_offspring):
+            parent1 = np.random.choice(parent_pool)
+            parent2 = np.random.choice(parent_pool)
+            offspring1, offspring2 = self.apply_xover(parent1, parent2)
+            
+            offspring_pool.append(offspring1)
+            offspring_pool.append(offspring2)
+
+        return offspring_pool
+
+
+    def apply_xover(self, s1: Schedule, s2: Schedule) -> List[Schedule]:
         partition_1, partition_2 = self._get_partition(s1)
         # jobs in partition 1 and 2
         job_sequence1 = np.argwhere(partition_1.M)[:,1] 
